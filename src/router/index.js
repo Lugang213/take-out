@@ -11,19 +11,35 @@ export default new Router({
     },
     {
       path: '/msite',
-      component: () => import('../pages/Msite/Msite.vue')
+      component: () => import('../pages/Msite/Msite.vue'),
+      meta: {
+        showFooter: true
+      }
     },
     {
       path: '/order',
-      component: () => import('../pages/Order/Order.vue')
+      component: () => import('../pages/Order/Order.vue'),
+      meta: {
+        showFooter: true
+      }
     },
     {
       path: '/profile',
-      component: () => import('../pages/Profile/Profile.vue')
+      component: () => import('../pages/Profile/Profile.vue'),
+      meta: {
+        showFooter: true
+      }
     },
     {
       path: '/search',
-      component: () => import('../pages/Search/Search.vue')
+      component: () => import('../pages/Search/Search.vue'),
+      meta: {
+        showFooter: true
+      }
+    },
+    {
+      path: '/login',
+      component: () => import('../pages/Login/Login.vue')
     },
   ]
 })
