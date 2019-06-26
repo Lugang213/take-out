@@ -5,6 +5,7 @@
           <h2 class="login_logo">XX外卖</h2>
           <div class="login_header_title">
             <a href="javascript:;" class="on">短信登录</a>
+            <a href="javascript:;">密码登录</a>
           </div>
         </div>
         <div class="login_content">
@@ -75,6 +76,7 @@
           padding-top 40px
           text-align center
           >a
+            display inline-block
             color #333
             font-size 14px
             padding-bottom 4px

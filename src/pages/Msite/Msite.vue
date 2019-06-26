@@ -1,87 +1,27 @@
 <template>
     <div class="msite">
-      <HeaderTop title="莱锦创意产业园">
+      <HeaderTop :title="address.name">
         <router-link slot="search" to="/search" class="header_search">
           <i class="iconfont iconsoushuo"></i>
         </router-link>
-        <router-link slot="login" to="/login"/ class="header_login">
+        <router-link slot="login" to="/login" class="header_login">
           <span class="header_login_text">注册|登录</span>
         </router-link>
       </HeaderTop>
       <nav class="msite_nav border-1px">
-        <div class="swiper-container">
+        <div class="swiper-container" v-if="categorys.length">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
+            <div class="swiper-slide" v-for="(categorys,index) in categorysArr" :key="index">
+              <a href="javascript:;" class="link_to_food" v-for="(category,index) in categorys" :key="index">
+                <div class="food_container"><img :src="baseImgUrl+category.image_url" alt=""></div>
+                <span>{{category.title}}</span>
               </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-            </div>
-            <div class="swiper-slide">
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
-              <a href="javascript:;" class="link_to_food">
-                <div class="food_container"><img src="./images/nav/1.jpg" alt=""></div>
-                <span>甜品饮品</span>
-              </a>
+
             </div>
           </div>
           <div class="swiper-pagination"></div>
         </div>
+        <img src="./images/msite_back.svg" alt="back" v-else>
       </nav>
       <!--首页 附近商家-->
       <div class="msite_shop_list">
@@ -95,18 +35,53 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.min.css'
   import HeaderTop from '../../components/HeaderTop/HeaderTop.vue'
   import ShopList from '../../components/ShopList/ShopList.vue'
   export default {
+    data () {
+      return {
+        baseImgUrl: 'https://fuss10.elemecdn.com'
+      }
+    },
     mounted (){
-      new Swiper('.swiper-container', {
-        pagination: {
-          el: '.swiper-pagination',
-        },
-        loop: true
-      })
+      this.$store.dispatch('getCategorys')
+      this.$store.dispatch('getShops')
+    },
+    computed: {
+      ...mapState(['address','categorys','shops']),
+
+      categorysArr () {
+        const {categorys} =  this
+        const arr = []
+        let minArr = []
+        categorys.forEach(c => {
+          if (minArr.length === 8) {
+            minArr = []
+          }
+          if (minArr.length === 0) {
+            arr.push(minArr)
+          }
+          minArr.push(c)
+        })
+        return arr
+      }
+    },
+    watch: {
+      categorys (value) {
+        this.$nextTick(() => {
+          new Swiper('.swiper-container', {
+            loop: true,
+            pagination: {
+              el: '.swiper-pagination',
+            },
+          })
+
+        })
+
+      },
     },
     components: {
       HeaderTop,
