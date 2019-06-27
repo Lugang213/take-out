@@ -13,7 +13,7 @@
       this.getAddress()
     },
     methods: {
-      ...mapActions(['getAddress'])
+      ...mapActions(['getAddress','getUserInfo'])
     },
 
     // async mounted () {
