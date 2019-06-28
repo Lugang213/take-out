@@ -41,5 +41,9 @@ export default new Router({
       path: '/login',
       component: () => import('../pages/Login/Login.vue')
     },
+    {
+      path: '/alert-tip',
+      component: () => import('../components/AlertTip/AlertTip.vue')
+    },
   ]
 })

@@ -8,10 +8,12 @@ export const reqAddress = (geohash) => ajax(`${BASE_URL}/position/${geohash}`)
 export const reqCategorys = () => ajax(BASE_URL+'/index_category')
 // 获取msite 商品列表
 export const reqShops = ({latitude,longitude}) =>ajax(BASE_URL+'/shops',{latitude,longitude})
+// 根据经纬度搜索商家
+export const reqSearchShops = (geohash) =>ajax(BASE_URL+'/search_shops',{keyword,geohash})
 // 账号密码登录
-export const reqPwdLogin = (name,pwd,captcha) => ajax(BASE_URL+'/login_pwd',{name,pwd,captcha},'POST')
+export const reqPwdLogin = ({name,pwd,captcha}) => ajax(BASE_URL+'/login_pwd',{name,pwd,captcha},'POST')
 // 获取短信验证码
-export const reqSendCode = phone => ajax(BASE_URL+'/sendcode',{phohe})
+export const reqSendCode = (phone) => ajax(BASE_URL + '/sendcode', {phone})
 // 手机号验证码登录
 export  const reqSmsLogin = (phone,code) => ajax(BASE_URL+'/login_sms',{phone,code},'POST')
 // 获取用户信息（根据会话）

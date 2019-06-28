@@ -16,11 +16,11 @@
                 <button :disabled="!rightPhone" class="get_verification"
                         :class="{right_phone:rightPhone}"
                         @click.prevent="getCode">
-                        {{computeTime>0 ? `已发送(${computeTime}S)` : '获取验证码'}}
+                        {{computeTime>0 ? `已发送(${computeTime}s)` : '获取验证码'}}
                 </button>
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder="验证码" v-model="code">
+                <input type="tel" maxlength="6" placeholder="验证码" v-model="code">
               </section>
               <section class="login_hint">
                 温馨提示：未注册XX外卖的手机号，登录是将自动注册，且代表已同意
@@ -42,7 +42,8 @@
                 </section>
                 <section class="login_message">
                   <input type="text" maxlength="11" placeholder="验证码" v-model="captcha">
-                  <img src="./images/captcha.svg" alt="captcha" class="get_verification">
+                  <img src="http://localhost:4000/captcha" alt="captcha" class="get_verification"
+                    @click="getCaptcha" ref="captcha">
                 </section>
               </section>
             </div>
@@ -59,18 +60,19 @@
 </template>
 
 <script>
-  import AlertTip from '../../components/AlertTip/AlertTip'
+  import AlertTip from '../../components/AlertTip/AlertTip.vue'
+  import {reqSendCode,reqSmsLogin,reqPwdLogin} from '../../api'
   export default {
     data () {
       return {
         loginWay: true, //true 短信登录，false 密码登录
-        phone: '',
         computeTime: 0, //计时
+        phone: '',
+        code: '', // 短信验证码
         showPwd: false,
         pwd: '',
-        code: '',
         name: '',
-        captcha: '',
+        captcha: '', // 图形验证码
         alertText: '',
         alertShow: false,
       }
@@ -81,24 +83,39 @@
       }
     },
     methods: {
-      // 获取短信验证码
-        getCode () {
+      // region 获取短信验证码
+      async getCode () {
         if (!this.computeTime) {
           this.computeTime = 30
-          const intervalId = setInterval(() => {
+          this.intervalId = setInterval(() => {
             this.computeTime --
             if(this.computeTime <= 0) {
-              clearInterval(intervalId)
+              clearInterval(this.intervalId)
             }
           },1000)
+          
+          const result = await reqSendCode(this.phone)
+          if (result.code === 1) {
+            console.log(result)
+            this.showAlert(result.msg)
+            if (this.computeTime) {
+              this.computeTime = 0
+              clearInterval(this.intervalId)
+              // this.intervalId = undefined
+            }
+          }
         }
       },
-      showAlert () {
+      // endregion
+      // region 弹出警告框
+      showAlert (alertText) {
         this.alertShow = true
         this.alertText = alertText
       },
-      // 表单验证
-      login () {
+      //endregion
+      // region 表单验证
+      async login () {
+        let result
         if (this.loginWay) {
           const {rightPhone,phone,code} = this
           if (!this.rightPhone) {
@@ -108,18 +125,48 @@
             this.showAlert('验证码必须是6位')
             return
           }
+          result = await reqSmsLogin(phone,code)
         }else {
           const {name,pwd,captcha} = this
           if (!this.name) {
-
+            this.showAlert('用户名错误')
+            return
           }else if (!this.pwd) {
-
+            this.showAlert('密码错误')
+            return
           }else if (!this.captcha) {
-
+            this.showAlert('验证码错误')
+            return
           }
+          result = await reqPwdLogin({name,pwd,captcha})
         }
-
+        if (this.computeTime) {
+          this.computeTime = 0
+          clearInterval(this.intervalId)
+          this.intervalId = undefined
+        }
+        if (result.code === 0) {
+          const user = result.data
+          this.$store.dispatch('recordUserInfo',user)
+          this.$router.replace('/profile')
+        }else {
+          this.getCaptcha()
+          const msg = result.msg
+          this.showAlert(msg)
+        }
+      },
+      //endregion
+      // region 关闭警告框
+      closeTip () {
+        this.alertShow = false
+        this.alertText = ''
+      },
+      // endregion
+      // region 图形验证码
+      getCaptcha () {
+        this.$refs.captcha.src = 'http://localhost:4000/captcha?time='+Date.now()
       }
+      //endregion
     },
     components: {
      AlertTip

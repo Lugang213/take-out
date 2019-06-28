@@ -1,11 +1,11 @@
 <template>
-    <div id="alert_container">
+    <div class="alert_container">
       <section class="tip_text_container">
         <div class="tip_icon">
           <span></span><span></span>
         </div>
         <p class="tip_text">{{alertText}}</p>
-        <div class="confrim">确认</div>
+        <div class="confrim" @click="closeTip">确认</div>
       </section>
     </div>
 </template>
@@ -17,7 +17,7 @@
     },
     methods: {
       closeTip () {
-        this.$emit('clseTip')
+        this.$emit('closeTip')
       }
     }
   }
