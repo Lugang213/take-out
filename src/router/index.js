@@ -42,8 +42,26 @@ export default new Router({
       component: () => import('../pages/Login/Login.vue')
     },
     {
-      path: '/alert-tip',
-      component: () => import('../components/AlertTip/AlertTip.vue')
+      path: '/shop',
+      component: () => import('../pages/Shop/Shop.vue'),
+      children: [
+        {
+          path: '/shop/goods',
+          component: () => import('../pages/Shop/ShopGoods/ShopGoods.vue')
+        },
+        {
+          path: '/shop/rating',
+          component: () => import('../pages/Shop/ShopRatings/ShopRatings.vue')
+        },
+        {
+          path: '/shop/info',
+          component: () => import('../pages/Shop/ShopInfo/ShopInfo.vue')
+        },
+        {
+          path: '',
+          redirect: '/shop/goods'
+        }
+      ]
     },
   ]
 })

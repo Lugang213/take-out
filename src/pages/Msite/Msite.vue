@@ -4,8 +4,9 @@
         <router-link slot="search" to="/search" class="header_search">
           <i class="iconfont iconsoushuo"></i>
         </router-link>
-        <router-link slot="login" to="/login" class="header_login">
-          <span class="header_login_text">注册|登录</span>
+        <router-link slot="login" class="header_login" :to="userInfo._id ? '/userinfo' : '/login'">
+          <span class="header_login_text" v-if="!userInfo._id">注册|登录</span>
+          <span class="header_login_text" v-else><i class="iconfont iconfenzucopy"></i></span>
         </router-link>
       </HeaderTop>
       <nav class="msite_nav border-1px">
@@ -29,7 +30,7 @@
           <i class="iconfont iconshangjia"></i>
           <span class="shop_header_title">附近商家</span>
         </div>
-        <ShopList />
+        <ShopList></ShopList>
       </div>
     </div>
 </template>
@@ -51,7 +52,7 @@
       this.$store.dispatch('getShops')
     },
     computed: {
-      ...mapState(['address','categorys','shops']),
+      ...mapState(['address','categorys','userInfo']),
 
       categorysArr () {
         const {categorys} =  this

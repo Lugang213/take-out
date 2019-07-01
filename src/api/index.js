@@ -17,6 +17,21 @@ export const reqSendCode = (phone) => ajax(BASE_URL + '/sendcode', {phone})
 // 手机号验证码登录
 export  const reqSmsLogin = (phone,code) => ajax(BASE_URL+'/login_sms',{phone,code},'POST')
 // 获取用户信息（根据会话）
-export const reqUser = () => ajax(BASE_URL+'/userinfo')
+export const reqUserInfo = () => ajax(BASE_URL+'/userinfo')
 // 登出
 export const reqLogout = () => ajax(BASE_URL+'/logout')
+
+/**
+ * 获取商家信息
+ */
+export const reqShopInfo = () => ajax('/info')
+
+/**
+ * 获取商家评价数组
+ */
+export const reqShopRatings = () => ajax('/ratings')
+
+/**
+ * 获取商家商品数组
+ */
+export const reqShopGoods = () => ajax('/goods')

@@ -11,15 +11,12 @@
   export default {
     mounted () {
       this.getAddress()
+      this.getUserInfo()
     },
     methods: {
       ...mapActions(['getAddress','getUserInfo'])
     },
 
-    // async mounted () {
-    //   const result = await reqCategorys ()
-    //   console.log(result)
-    // }
     components: {
       FooterGuide
     },
