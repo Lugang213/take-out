@@ -18,6 +18,8 @@ import {
   RECEIVE_GOODS,
   RECEIVE_RATINGS,
   RECEIVE_INFO,
+  INCREMENT_FOOD_COUNT,
+  DECREMENT_FOOD_COUNT
 
 } from './mutation-types'
 
@@ -68,11 +70,12 @@ export default {
     }
   },
   // 异步获取用户信息
-  async getShopGoods ({commit}) {
+  async getShopGoods ({commit},callback) {
     const result = await reqShopGoods()
     if (result.code === 0) {
       const goods = result.data
       commit(RECEIVE_GOODS,{goods})
+      callback && callback()
     }
   },
   async getShopRatings ({commit}) {
@@ -89,5 +92,12 @@ export default {
       commit(RECEIVE_INFO,{info})
     }
   },
-
+  // 同步更新food中的count
+  updateFoodCount ({commit},{isAdd,food}) {
+    if (isAdd) {
+      commit(INCREMENT_FOOD_COUNT,{food})
+    }else {
+      commit(DECREMENT_FOOD_COUNT,{food})
+    }
+  }
 }
