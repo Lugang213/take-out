@@ -4,7 +4,7 @@
       <li class="shop_li border-1px"
           v-for="(shop,index) in shops" :key="index"
           @click="$router.push('/shop')">
-        <a href="">
+        <a>
           <div class="shop_left">
             <!--<img :src="baseImgUrl+shop.image_path" alt="" class="shop_img">-->
             <img src="./images/shop/2.jpg" alt="" class="shop_img">

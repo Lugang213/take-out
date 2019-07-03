@@ -50,7 +50,7 @@ export default new Router({
           component: () => import('../pages/Shop/ShopGoods/ShopGoods.vue')
         },
         {
-          path: '/shop/rating',
+          path: '/shop/ratings',
           component: () => import('../pages/Shop/ShopRatings/ShopRatings.vue')
         },
         {

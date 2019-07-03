@@ -1,10 +1,10 @@
 <template>
     <div class="cartcontrol">
       <transition name="move">
-        <div class="iconfont iconjian1 float_left" v-if="food.count" @click="updateFoodCount(false)"></div>
+        <div class="iconfont iconjian1 float_left" v-if="food.count" @click.stop="updateFoodCount(false)"></div>
       </transition>
-      <div class="cart-count float_left" v-if="food.count">{{'food.count'}}</div>
-      <div class="iconfont iconadd float_left" @click="updateFoodCount(true)"></div>
+      <div class="cart-count float_left" v-if="food.count"> {{food.count}} </div>
+      <div class="iconfont iconadd float_left" @click.stop="updateFoodCount(true)"></div>
     </div>
 </template>
 
@@ -17,7 +17,6 @@
       updateFoodCount (isAdd) {
         this.$store.dispatch('updateFoodCount',{isAdd, food:this.food})
       }
-
     }
   }
 </script>
