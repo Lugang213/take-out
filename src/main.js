@@ -6,8 +6,11 @@ import router from './router'
 import store from './store'
 import {Button} from 'mint-ui'
 import './mock/mockServer'
+import './fiters'
+
 Vue.config.productionTip = false
 Vue.component(Button.name,Button)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

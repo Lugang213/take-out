@@ -5,6 +5,7 @@
         <input type="search" name="search" placeholder="请输入商家或美食名称" class="search_input">
         <input type="submit" class="search_submit">
       </form>
+
     </section>
 </template>
 

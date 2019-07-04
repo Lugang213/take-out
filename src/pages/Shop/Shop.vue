@@ -12,9 +12,9 @@
         <router-link to="/shop/info" replace>商家</router-link>
       </div>
     </div>
-    <!--<keep-alive>-->
+    <keep-alive>
       <router-view/>
-    <!--</keep-alive>-->
+    </keep-alive>
   </div>
 </template>
 
