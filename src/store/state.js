@@ -1,6 +1,6 @@
 export default {
-  latitude: 39.91419720508434,
-  longitude: 116.49816400000003,
+  latitude: 40.10038, // 纬度
+  longitude: 116.36867, // 经度
   address: {},
   categorys: [],
   shops: [],
@@ -9,4 +9,5 @@ export default {
   ratings: [], // 商家评价列表
   info: {}, // 商家信息
   cartFoods: [],  // 购物车中食品的列表
+  searchShops: [] // 搜索的商家列表
 }

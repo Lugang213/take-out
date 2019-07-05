@@ -9,7 +9,7 @@ export const reqCategorys = () => ajax(BASE_URL+'/index_category')
 // 获取msite 商品列表
 export const reqShops = ({latitude,longitude}) =>ajax(BASE_URL+'/shops',{latitude,longitude})
 // 根据经纬度搜索商家
-export const reqSearchShops = (geohash) =>ajax(BASE_URL+'/search_shops',{keyword,geohash})
+export const reqSearchShops = ({geohash,keyword}) =>ajax(BASE_URL+'/search_shops',{keyword,geohash})
 // 账号密码登录
 export const reqPwdLogin = ({name,pwd,captcha}) => ajax(BASE_URL+'/login_pwd',{name,pwd,captcha},'POST')
 // 获取短信验证码
